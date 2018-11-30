@@ -3,96 +3,89 @@ import AddBook from './addBook';
 import EditBook from './editBook';
 class Book extends React.Component{
   state = {
-    rating: this.props.book.rating,
-    // editable: false 
-    
+    rating: this.props.book.rating,  
+    // rating: this.props. 
   }
 
-  handleChange = (event) => {
+  handleChange = (event) => { 
     this.setState({
-      raiting: event.target.value,
+      rating: event.target.value,
     })
 
-    console.log(`http://localhost:4000/books/${this.state.book_id}`);
-    
-    
-    // fetch(`http://localhost:4000/books/${this.state.book_id}`,
-    // {
-    //   // headers: {'Content-Type': 'application/json'},
-    //   headers: {
-    //     'Access-Control-Allow-Origin': '*',
-    //     "Content-Type": "application/json",
-    //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-    //   },
-    //   method: 'PUT',
-    //   body: JSON.stringify({rating: this.state.rating})   
-    // });
+    console.log(`http://localhost:4000/books/${this.props.book.id}}`);
 
-    // fetch(`http://localhost:4000/books/${this.state.book_id}`, {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-    //   },
-    //   mode: 'no-cors',
+      console.log('this.state.rating', this.state.rating);
+      // const body = {
+      //   rating: this.state.rating
+      // }
+      
+      // fetch(`http://localhost:4000/books/${this.props.book.id}`, {
+      //   headers: {"Content-Type": "application/json"},
+      //   method: 'PUT',
+      //   body: JSON.stringify({
+      //     rating: this.state.rating,
+      //     title: this.props.book.id,
+      //     description: this.props.description,
+      //     })
+      //   })
+      //   .then((response) => {return response.json()})
+      //   .then((book) => {this.setState({rating: book.rating})
+      // })
+        // .then((response) => {
+        //   this.setState({
+        //     rating: body
+        //   })
+        // })
 
-    //   method: 'PATCH',
-    //   body: JSON.stringify({rating: this.state.rating})
-    //   })
-
-    // fetch(`http://localhost:4000/books/${this.state.book_id}`, 
-    // {
-    //   // mode: 'no-cors',
-    
-    //   method: 'PUT',
-    //   body: JSON.stringify({rating: this.state.rating}),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': 'http://127.0.0.1:4000',
-    //   }
-    // }).then((response) => { 
-    //     console.log("done")
-    //   })
-
-    //   .catch((e) => console.log("errror", e))
   }
 
+  handleClick = () => {
+    fetch(`http://localhost:4000/books/${this.props.book.id}`, {
+      headers: {"Content-Type": "application/json"},
+      method: 'PUT',
+      body: JSON.stringify({
+        rating: this.state.rating,
+        title: this.props.book.id,
+        description: this.props.description,
+        })
+      })
+      .then((response) => {return response.json()})
+      .then((book) => {this.setState({rating: book.rating})
+    })
+  }
+    
 
-  // handleEdit = () => {
-  //   this.setState({
-  //     editable: !this.state.editable
-  //   })
-  // }
   render() {
     // console.log("rating", this.props.rating);
+    console.log('this.state.rating', this.state.rating);
+
 
     console.log("this.props.book.id",this.props.book.id);
     
     const options = (num) => {
     let opts = []
     for (let i = 0; i <= num; i++){
-      opts.push( <option>{i}</option>)
+      opts.push( <option value={i}>{i}</option>)
     }
       return opts;
     }
 
     return (
       <div>
-        {this.props.book.title}
+        {this.props.book.title }{this.props.book.title}
 
-        {/* <span>
-          Rating 
-          <select value={this.state.rating}  onChange={this.handleChange}>
+       <span>
+          
+          <select value={this.state.rating}  onChange={this.handleChange} onClick={this.handleClick}>
             {options(5)}  
           </select>
-          <br/> 
-          <br/>
+          {/* Rating    */}
+    
            
-        </span> */}   
-        {/* <button onClick={() => this.handleEdit()}>{this.state.editable? 'Submit' : 'Edit'}</button> */}
+        </span> 
+    
         <button onClick={() => this.props.handleDelete(this.props.book.id)}>Delete</button>
-        {/* {this.state.editable? <AddBook/>: null} */}
-        <EditBook handleUpdate={this.props.handleUpdate} errors={this.props.errors}/>
+        <EditBook handleUpdate={this.props.handleUpdate} errors={this.props.errors} bookId={this.props.book.id}/>
       </div> 
     );
   }

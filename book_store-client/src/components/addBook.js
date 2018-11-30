@@ -5,7 +5,7 @@ class AddBook extends React.Component {
   state = {
     title: '',
     description: '',
-    rating: 0,
+    // rating: 0,
   };
   
   handleChange = (event) => {
@@ -91,7 +91,7 @@ class AddBook extends React.Component {
           {
             this.props.showSubmitButton 
             ?
-            <button onClick={() => this.props.handleSubmit(this.state)}>{this.props.nameOfButton}</button>
+            <button onClick={() => this.props.handleSubmit(this.state, this.props.bookId)}>{this.props.nameOfButton}</button>
             :
             null
           }

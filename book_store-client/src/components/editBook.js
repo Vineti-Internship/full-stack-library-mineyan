@@ -2,8 +2,7 @@ import React from 'react';
 import AddBook from './addBook';
 class EditBook extends React.Component{
   state = {  
-    editable: false 
-    
+    editable: false    
   }
 
   handleChange = (event) => {
@@ -14,13 +13,16 @@ class EditBook extends React.Component{
 
 
   handleEdit = () => {
-    if(this.state.editable){
-      let name = "smt";
-      let description = "smtjnsadk";
-      let id = 69;
-      let book = {id: id, name: name, description: description}
-      this.props.handleUpdate(book)
-    }
+    // if(this.state.editable){
+    //   let name = "smt";
+    //   let description = "smtjnsadk";
+    //   let id = 75;
+    //   let book = {id: id, name: name, description: description}
+      // this.props.handleUpdate(book);
+      // this.props.handleUpdate()
+
+    // }
+
 
 
     this.setState({
@@ -31,15 +33,18 @@ class EditBook extends React.Component{
   render() {
     return (
       <React.Fragment>
-        <button onClick={() => this.handleEdit()}>{this.state.editable? 'Submit' : 'Edit'}</button>
+        <button onClick={this.handleEdit}>{this.state.editable? 'Submit' : 'Edit'}</button>
+        {/* <button onClick={() => this.handleEdit()}>{this.state.editable? 'Submit' : 'Edit'}</button> */}
+
         {
           this.state.editable
           ? 
           <AddBook 
             errors={this.props.errors}
             nameOfButton="Edit"
-            showSubmitButton={false}
+            showSubmitButton={true}
             handleSubmit={this.props.handleUpdate}
+            bookId={this.props.bookId}
 
           />
           : 

@@ -15,6 +15,7 @@ class App extends Component {
     loading: false,
     showAddBook: false,
     currentAuthorId: '',
+    currentBookId: '',
 
     errorsOfAuthor: {
       name: '',
@@ -37,7 +38,7 @@ class App extends Component {
     console.log("idFromChild",idFromChild);
   
     this.setState({
-      showAddBook: true,
+      showAddBook: !this.state.showAddBook,
       currentAuthorId: idFromChild
     })   
   }
@@ -107,14 +108,17 @@ class App extends Component {
     })
   }
 
-  handleUpdateForBook = (book) => {
-    fetch(`http://localhost:4000/books/${book.id}`, {
+  handleUpdateForBook = (book, id) => {
+    const body = {
+      ...book, id
+    }
+    fetch(`http://localhost:4000/books/${id}`, {
       headers: {"Content-Type": "application/json"},
       method: 'PUT',
-      body: JSON.stringify({book: book})
+      body: JSON.stringify(body)
       })
       .then((response) => {
-        this.updateBook(book)
+        this.updateBook(body)
       })
   }
 
@@ -176,21 +180,31 @@ class App extends Component {
           <React.Fragment>
             {/* <Book/>  */}
             {/* <AddAuthor handleSubmit={this.addAuthor} errors={this.state.errorsOfAuthor}/>    */}
-            <ListOfBooks books={books} handleDelete={this.handleDeleteForBook} handleUpdate = {this.handleUpdateForBook} errors={this.state.errorsOfBook}/>
-            <ListOfAuthors authors={authors} addbook={this.openAddBookForm}/>
-
-            <React.Fragment>
+            <div>
+              <ListOfBooks 
+                books={books}
+                handleDelete={this.handleDeleteForBook} 
+                handleUpdate = {this.handleUpdateForBook} 
+                errors={this.state.errorsOfBook}
+              />
+            </div>
+      
+            <div>
+              <ListOfAuthors authors={authors} addbook={this.openAddBookForm}/>
+            </div>
+            <br/>
+            <div>
              {this.state.showAddBook
              ? 
              <AddBook
                 handleSubmit={this.addBook}
                 errors={this.state.errorsOfBook}
                 nameOfButton="Add Book"
-                showSubmitButton={false}
+                showSubmitButton={true}
               />
               :
                null}
-            </React.Fragment>
+            </div>
 
                 {/* <AddBook/>  */}
           </React.Fragment>
