@@ -1,4 +1,4 @@
-const validate = values => {
+const validateBook = values => {
   const errors = {};
   
   if (!values.title) {
@@ -16,4 +16,4 @@ const validate = values => {
   return errors;
 }
 
-export default validate
+export default validateBook;

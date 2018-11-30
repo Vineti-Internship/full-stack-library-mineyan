@@ -1,22 +1,18 @@
 import React from 'react';
 import Book from './book';
 
-class ListOfBooks extends React.Component {
-  render() {
+const ListOfBooks = (props) =>  {
     return (
-      <ul>
+      <div>
          {
-            this.props.books.map(book => {
+            props.books.map(book => {
               return (
-                <Book title={book.title} id={book.id} rating={book.rating}/>         
+                <Book key={book.id} book={book} handleDelete={props.handleDelete} handleUpdate={props.handleUpdate} errors={props.errors}/>         
               )
             })
           }
-  
-      </ul>      
-    
-    )};
-  
+      </div>      
+    )
   }
  
  

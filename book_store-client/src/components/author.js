@@ -1,11 +1,13 @@
 import React from 'react';
 
-const Author = (props) => {
+const Author = ({username, addbook, id}) => {
+  console.log("id", id);
+  
   return (
-    <li>
-      {props.username}
-      <button onClick={() => props.addbook(props.id)}>Add book</button>
-    </li> 
+    <div>
+      {username}
+      <button onClick={() => addbook(id)}>Add book</button>
+    </div> 
   );
 };
 

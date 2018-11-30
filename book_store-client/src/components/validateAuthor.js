@@ -1,8 +1,6 @@
-export const validate = values => {
+const validateAuthor = values => {
   const errors = {};
-  // console.log("errors", errors);
-  // console.log("values", values);
-  
+
   if (!values.name) {
     errors.name = ' is Required';
   } else if (values.name.length < 2) {
@@ -26,3 +24,5 @@ export const validate = values => {
   console.log("errors", errors);
   return errors;
 }
+
+export default validateAuthor ;
