@@ -6,9 +6,7 @@ class AddAuthor extends React.Component {
   state = {
     name: '',
     username: '',
-    description: '',
-    // books: [],
-    // books_count: null
+    description: ''
   };
 
   handleChange = (event) => {

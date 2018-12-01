@@ -1,6 +1,5 @@
 import React from 'react';
 import Author from './author';
-// import AddBook from './addBook';
 import {AuthorsContext} from './context/authors_context';
 
 const ListOfAuthors = () => {

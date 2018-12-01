@@ -14,6 +14,7 @@ class AuthorsPage extends React.Component {
       showAddAuthor: !prevState.showAddAuthor
     }))
   }
+  
   render () {
     return(
       <div className="authorsList">
@@ -40,9 +41,7 @@ class AuthorsPage extends React.Component {
             this.props.showAddBook && <AddBook handleSubmit={this.props.handleSubmit} nameOfButton={this.props.nameOfButton}/>
             
           }
-
-        </div>
-     
+        </div> 
       </div>
   
       

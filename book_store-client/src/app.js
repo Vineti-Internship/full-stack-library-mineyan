@@ -182,31 +182,10 @@ class App extends Component {
     
     return (
       <div className="App">
-         {/* <h1>Book Store</h1> */}
-        {
+      {
         !loading ?
           <React.Fragment>
-            {/* <Book/>  */}
-            {/* <AddAuthor handleSubmit={this.addAuthor} errors={this.state.errorsOfAuthor}/>    */}
-            {/* <div>
-              <ListOfBooks 
-                books={books}
-                handleDelete={this.handleDeleteForBook} 
-                handleUpdate = {this.handleUpdateForBook} 
-                errors={this.state.errorsOfBook}
-              />
-            </div> */}
-
-      
-
-        {/* <HomePage books={this.state.books}/> */}
-
-            <div className="listOfAuthors">
-
-  
-            
-            {/* <AddAuthor handleSubmit={this.addAuthor} errors={this.state.errorsOfAuthor}/>    */}
-              
+            <HomePage books={this.state.books}/>              
               <AuthorsContext.Provider
                 value={{
                   authors: this.state.authors,
@@ -230,35 +209,14 @@ class App extends Component {
                   </BooksContext.Provider>
 
               </AuthorsContext.Provider>
-
-
-
-
-{/*               
-              <div>
-              {this.state.showAddBook
-              ? 
-              <AddBook
-                  handleSubmit={this.addBook}
-                  errors={this.state.errorsOfBook}
-                  nameOfButton="Add Book"
-                  showSubmitButton={true}
-                />
-                :
-                null}
-              </div> */}
-            </div>
-          </React.Fragment>
+              </React.Fragment>
+    
+        
           :
           <p>loading...</p> 
         } 
-        {
-
-        }
-
+        </div>
         
-     
-      </div>
     );
   }
 }
