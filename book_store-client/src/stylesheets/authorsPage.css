@@ -1,0 +1,31 @@
+
+.addAuthor {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: cenetr;
+  padding-bottom: 20px;
+}
+.addAuthor {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  height: 25px;
+}
+
+.addAuthor button {
+  width: 100px;
+  height: 25px;
+}
+
+.authorsList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.ListOfAuthors {
+  padding-top: 20px;
+}
+
+

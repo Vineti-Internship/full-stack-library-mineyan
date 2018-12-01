@@ -1,4 +1,6 @@
 import React from 'react';
+import {AuthorsContext} from './context/authors_context';
+
 
 class AddAuthor extends React.Component {
   state = {
@@ -18,41 +20,48 @@ class AddAuthor extends React.Component {
   }
 
   render() {
-    const {name, username, description} = this.props.errors;
-   
-    return (
-      <div>
-          <input 
-            placeholder="Name:"
-            type="text"
-            name="name" 
-            onChange={this.handleChange} 
-          />
-          <div style={{color: "red"}}>{name}</div>
-          <br/>
+    return (  
+        <AuthorsContext.Consumer>
+          {
+            context => 
+            (
+              <div>
+                <input 
+                  placeholder="Name:"
+                  type="text"
+                  name="name" 
+                  onChange={this.handleChange} 
+                />
+                <div style={{color: "red"}}>{context.errors.name}</div>
+                <br/>
 
-          <input 
-            placeholder="Username:"
-            type="text" 
-            name="username" 
-            onChange={this.handleChange} 
-          />
-          <div style={{color: "red"}}>{username}</div>
-          <br/>
+                <input 
+                  placeholder="Username:"
+                  type="text" 
+                  name="username" 
+                  onChange={this.handleChange} 
+                />
+                <div style={{color: "red"}}>{context.errors.username}</div>
+                <br/>
 
+                
+                <textarea 
+                  placeholder="Description:"
+                  value={this.state.description}
+                  name="description"
+                  onChange={this.handleChange} 
+                />
+                <div style={{color: "red"}}>{context.errors.description}</div>
+                <br/>
+
+                <button onClick={() => context.handleSubmit(this.state)}>Add Author</button>
+              </div>
+            )
+            
+          }
           
-          <textarea 
-            placeholder="Description:"
-            value={this.state.description}
-            name="description"
-            onChange={this.handleChange} 
-          />
-          <div style={{color: "red"}}>{description}</div>
-          <br/>
-
-          <button onClick={() => this.props.handleSubmit(this.state)}>Add Author</button>
-      </div>
-  )
+          </AuthorsContext.Consumer>
+      )
   }
 }
 

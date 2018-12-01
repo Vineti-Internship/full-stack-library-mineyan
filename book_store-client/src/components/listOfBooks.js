@@ -1,15 +1,32 @@
 import React from 'react';
 import Book from './book';
+import {BooksContext} from './context/books_context';
 
-const ListOfBooks = (props) =>  {
+const ListOfBooks = () =>  {
     return (
-      <div>
+      <div className="list"> 
          {
-            props.books.map(book => {
-              return (
-                <Book key={book.id} book={book} handleDelete={props.handleDelete} handleUpdate={props.handleUpdate} errors={props.errors}/>         
-              )
-            })
+           <BooksContext.Consumer>
+             {
+               context => (                
+                <React.Fragment>
+                { context.books 
+                  ? 
+                  <div>{context.books.map(book => {
+                      return (
+                        <Book  key={book.id} book={book} handleDelete={context.handleDelete} handleUpdate={context.handleUpdate} errors={context.errorsOfBook}/>
+                      )
+                    })}
+                  </div> 
+                  : 
+                  null }
+                
+              </React.Fragment>
+               )
+               
+             }
+           </BooksContext.Consumer>
+
           }
       </div>      
     )
@@ -17,3 +34,25 @@ const ListOfBooks = (props) =>  {
  
  
 export default ListOfBooks;
+
+
+
+// import React from 'react';
+// import Book from './book';
+
+// const ListOfBooks = (props) =>  {
+//     return (
+//       <div>
+//          {
+//             props.books.map(book => {
+//               return (
+//                 <Book key={book.id} book={book} handleDelete={props.handleDelete} handleUpdate={props.handleUpdate} errors={props.errors}/>         
+//               )
+//             })
+//           }
+//       </div>      
+//     )
+//   }
+ 
+ 
+// export default ListOfBooks;

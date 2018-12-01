@@ -8,6 +8,13 @@ import ListOfBooks from './components/listOfBooks';
 import validateAuthor from './components/validateAuthor';
 import validateBook from './components/validateBook';
 
+import HomePage from './components/homePage';
+import AuthorsPage from './components/authorsPage';
+import BooksPage from './components/booksPage';
+
+import {BooksContext} from './components/context/books_context';
+import {AuthorsContext} from './components/context/authors_context';
+
 class App extends Component {
   state = {
     authors: [],
@@ -26,8 +33,28 @@ class App extends Component {
     errorsOfBook: {
       title: '',
       description: '',
-      // rating: 0,
-    },
+    }
+  }
+
+  async componentDidMount() {
+    this.setState({
+      loading: true
+    })
+
+    try {
+      const result = await fetch('http://localhost:4000/authors');
+      const res = await fetch('http://localhost:4000/books');
+      const authors = await result.json();
+      const books = await res.json();
+      this.setState({
+        authors,
+        books,
+        loading: false,
+      });
+    }
+    catch(e) {
+      console.log(e);   
+    }    
   }
 
   isEmpty = (obj) => {
@@ -66,7 +93,7 @@ class App extends Component {
     const errors = validateAuthor(values);
 
     this.setState({
-      errorsOfAuthor: errors
+      errorsOfAuthor: errors,  
     })
 
     let body = ({ 
@@ -81,16 +108,16 @@ class App extends Component {
       fetch('http://localhost:4000/authors', {
         headers: {"Content-Type": "application/json"},
         method: 'POST',
+        body: JSON.stringify(body)
         })
         .then((response) => {return response.json()})
         .then((author) => {this.addNewAuthor(author)})
+        .catch((e) => console.log(e));
+         
     }
   }
 
   handleDeleteForBook = (id) => {
-    console.log("yaaaaaaaaaa");
-    console.log("id", id)
-    
     fetch(`http://localhost:4000/books/${id}`, {
       headers: {"Content-Type": "application/json"},
       method: 'DELETE',
@@ -121,8 +148,6 @@ class App extends Component {
         this.updateBook(body)
       })
   }
-
-
   
   addBook = (values) => {   
     const errors = validateBook(values);
@@ -130,17 +155,14 @@ class App extends Component {
       errorsOfBook: errors
     })
   
-    let body = ({ 
+    let body = { 
       book: { 
             title: values.title,
             description: values.description,
             author_id: this.state.currentAuthorId,
           }
-    });
-
-    console.log("body", body);
-    
-    
+    };
+ 
     if(this.isEmpty(errors)){
       fetch('http://localhost:4000/books', {
         headers: {"Content-Type": "application/json"},
@@ -152,66 +174,89 @@ class App extends Component {
     }
   }
 
-  async componentDidMount() {
-    this.setState({
-      loading: true
-    })
-    const result = await fetch('http://localhost:4000/authors')
-    this.setState({
-      authors: await result.json(),
-      loading: false,
-    });
 
-    const rresult = await fetch('http://localhost:4000/books')
-    this.setState({
-      books: await rresult.json(),
-    });
-    
-  }
 
   
   render() { 
     const { authors, books, loading} = this.state;
+    
     return (
       <div className="App">
-         <h1>Book Store</h1>
+         {/* <h1>Book Store</h1> */}
         {
         !loading ?
           <React.Fragment>
             {/* <Book/>  */}
             {/* <AddAuthor handleSubmit={this.addAuthor} errors={this.state.errorsOfAuthor}/>    */}
-            <div>
+            {/* <div>
               <ListOfBooks 
                 books={books}
                 handleDelete={this.handleDeleteForBook} 
                 handleUpdate = {this.handleUpdateForBook} 
                 errors={this.state.errorsOfBook}
               />
-            </div>
-      
-            <div>
-              <ListOfAuthors authors={authors} addbook={this.openAddBookForm}/>
-            </div>
-            <br/>
-            <div>
-             {this.state.showAddBook
-             ? 
-             <AddBook
-                handleSubmit={this.addBook}
-                errors={this.state.errorsOfBook}
-                nameOfButton="Add Book"
-                showSubmitButton={true}
-              />
-              :
-               null}
-            </div>
+            </div> */}
 
-                {/* <AddBook/>  */}
+      
+
+        {/* <HomePage books={this.state.books}/> */}
+
+            <div className="listOfAuthors">
+
+  
+            
+            {/* <AddAuthor handleSubmit={this.addAuthor} errors={this.state.errorsOfAuthor}/>    */}
+              
+              <AuthorsContext.Provider
+                value={{
+                  authors: this.state.authors,
+                  addbook:  this.openAddBookForm,
+                  handleSubmit: this.addAuthor,
+                  errors: this.state.errorsOfAuthor,
+      
+                  }}>
+
+                  <BooksContext.Provider value={{
+                    handleSubmit: this.addBook,
+                    errors: this.state.errorsOfBook,
+                    
+                    showSubmitButton: true,
+                    books: this.state.books,
+                    handleDelete: this.handleDeleteForBook,
+                    handleUpdate: this.handleUpdateForBook
+                  }}>
+                    <AuthorsPage showAddBook={this.state.showAddBook} handleSubmit={this.addBook} nameOfButton="Add Book"/>
+                    <BooksPage />
+                  </BooksContext.Provider>
+
+              </AuthorsContext.Provider>
+
+
+
+
+{/*               
+              <div>
+              {this.state.showAddBook
+              ? 
+              <AddBook
+                  handleSubmit={this.addBook}
+                  errors={this.state.errorsOfBook}
+                  nameOfButton="Add Book"
+                  showSubmitButton={true}
+                />
+                :
+                null}
+              </div> */}
+            </div>
           </React.Fragment>
           :
           <p>loading...</p> 
         } 
+        {
 
+        }
+
+        
      
       </div>
     );

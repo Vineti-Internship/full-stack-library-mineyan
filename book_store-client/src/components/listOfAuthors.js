@@ -1,17 +1,20 @@
 import React from 'react';
 import Author from './author';
 // import AddBook from './addBook';
+import {AuthorsContext} from './context/authors_context';
 
-const ListOfAuthors = ({authors, addbook}) => {
+const ListOfAuthors = () => {
     return (
+      
       <div>
          {
-            authors.map(author => {
-              return (   
-                <Author key={author.id} username={author.username}  id={author.id} addbook={addbook}/>      
-              )
-          })
-          }
+           <AuthorsContext.Consumer>
+            {
+              ({authors, addbook}) => (  
+                authors.map(author => <Author key={`${author.id}${author.username}`} username={author.username}  id={author.id} addbook={addbook}/> )      
+              )}
+          </AuthorsContext.Consumer>
+         }
       </div>      
     )
   }

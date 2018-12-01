@@ -13,29 +13,18 @@ class EditBook extends React.Component{
 
 
   handleEdit = () => {
-    // if(this.state.editable){
-    //   let name = "smt";
-    //   let description = "smtjnsadk";
-    //   let id = 75;
-    //   let book = {id: id, name: name, description: description}
-      // this.props.handleUpdate(book);
-      // this.props.handleUpdate()
-
-    // }
-
-
-
     this.setState({
       editable: !this.state.editable
     })
   }
 
   render() {
+
+    console.log("this.props.handleUpdate", this.props.handleUpdate);
+    
     return (
       <React.Fragment>
         <button onClick={this.handleEdit}>{this.state.editable? 'Submit' : 'Edit'}</button>
-        {/* <button onClick={() => this.handleEdit()}>{this.state.editable? 'Submit' : 'Edit'}</button> */}
-
         {
           this.state.editable
           ? 
